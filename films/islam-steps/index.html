@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Five Steps</title>
+<style>
+  @font-face { font-family: "Plex Arabic"; font-weight: 400; src: url("../../fonts/IBMPlexSansArabic-Regular.ttf") format("truetype"); font-display: block; }
+  @font-face { font-family: "Plex Arabic"; font-weight: 700; src: url("../../fonts/IBMPlexSansArabic-Bold.ttf") format("truetype"); font-display: block; }
+  @font-face { font-family: "Plex Mono"; font-weight: 500; src: url("../../fonts/IBMPlexMono-Medium-latin.woff2") format("woff2"); font-display: block; }
+  :root { --ink: #111312; --paper: #efe9dd; --acc: #14a874; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ink); }
+  canvas { position: absolute; left: 0; top: 0; }
+  #fx { z-index: 50; }
+  .scene { position: absolute; inset: 0; display: none; color: var(--fg); }
+  .disp { font-family: "Plex Arabic", sans-serif; font-weight: 700; letter-spacing: -0.035em; line-height: 0.95; }
+  .mono { font-family: "Plex Mono", "Plex Arabic", monospace; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; white-space: pre; }
+  .abs { position: absolute; }
+  .m { display: block; overflow: hidden; padding: 0.04em 0 0.12em; margin: -0.04em 0 -0.12em; }
+  .m > span { display: inline-block; will-change: transform; }
+  /* Step header: numeral + word + five-segment progress. */
+  .hdr { position: absolute; left: 108px; top: 196px; width: 864px; height: 230px; }
+  .hdr .num { position: absolute; left: -8px; top: 0; font-size: 230px; }
+  .hdr .lab { position: absolute; left: 330px; top: 54px; font-size: 54px; color: var(--hl); }
+  .hdr .seg { position: absolute; left: 330px; top: 140px; display: flex; gap: 12px; }
+  .hdr .seg i { display: block; width: 92px; height: 12px; background: var(--fg); opacity: 0.18; transform-origin: left center; }
+  .hdr .seg i.done { opacity: 1; }
+  .hdr .seg i.cur { opacity: 1; background: var(--hl); }
+</style>
+</head>
+<body>
+<canvas id="bg" width="1080" height="1920"></canvas>
+
+<!-- HOOK -->
+<div class="scene" id="s0" style="--fg: var(--paper)">
+  <div class="abs mono" id="h-kick" style="left:108px; top:216px; font-size:44px; color:var(--acc)"></div>
+  <div class="abs disp" style="left:100px; top:290px; font-size:206px">
+    <div class="m"><span id="h-l1">Become</span></div>
+    <div class="m"><span id="h-l2">a Muslim</span></div>
+  </div>
+  <div class="abs mono" id="h-steps" style="left:108px; top:1640px; font-size:40px"></div>
+</div>
+
+<!-- 01 KNOW -->
+<div class="scene" id="s1" style="--fg: var(--ink); --hl: var(--acc)">
+  <div class="hdr"><div class="num disp m"><span>01</span></div><div class="lab mono"></div><div class="seg"><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="abs disp" style="left:100px; top:1250px; font-size:196px">
+    <div class="m"><span id="k-l1">God is</span></div>
+    <div class="m"><span id="k-l2">One.</span></div>
+  </div>
+  <div class="abs mono" id="k-sub" style="left:108px; top:1652px; font-size:40px; color:var(--acc)"></div>
+</div>
+
+<!-- 02 BELIEVE -->
+<div class="scene" id="s2" style="--fg: var(--paper); --hl: var(--acc)">
+  <div class="hdr"><div class="num disp m"><span>02</span></div><div class="lab mono"></div><div class="seg"><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="abs" id="reel" style="left:108px; top:470px; width:864px; height:1000px"></div>
+  <div class="abs mono" id="b-final" style="left:108px; top:1170px; font-size:44px; color:var(--acc)"></div>
+  <div class="abs mono" id="b-pbuh" style="left:108px; top:1236px; font-size:32px; color:#8a8d8a"></div>
+  <div class="abs disp" style="left:104px; top:1478px; font-size:84px; line-height:1.02">
+    <div class="m"><span id="b-l1">The last of God’s</span></div>
+    <div class="m"><span id="b-l2">messengers.</span></div>
+  </div>
+</div>
+
+<!-- 03 DECLARE -->
+<div class="scene" id="s3" style="--fg: var(--ink); --hl: var(--paper)">
+  <div class="hdr"><div class="num disp m"><span>03</span></div><div class="lab mono"></div><div class="seg"><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="abs mono" id="d-sub" style="left:108px; top:448px; font-size:38px"></div>
+  <div class="abs disp ar" id="ar1" dir="rtl" style="left:108px; width:864px; top:540px; text-align:right; line-height:1.5; white-space:nowrap"><span class="arin"><span class="g">أَشْهَدُ</span> <span class="g">أَنْ</span> <span class="g">لَا</span> <span class="g">إِلٰهَ</span> <span class="g">إِلَّا ٱللّٰهُ</span></span></div>
+  <div class="abs mono tr" id="tr1" style="left:108px; width:864px; text-align:right; top:732px; font-size:35px; letter-spacing:0.02em"><span>ash-hadu</span> <span>an</span> <span>lā</span> <span>ilāha</span> <span>illā-llāh</span></div>
+  <div class="abs disp ar" id="ar2" dir="rtl" style="left:108px; width:864px; top:850px; text-align:right; line-height:1.5; white-space:nowrap"><span class="arin"><span class="g">وَأَشْهَدُ</span> <span class="g">أَنَّ</span> <span class="g">مُحَمَّدًا</span> <span class="g">رَسُولُ ٱللّٰهِ</span></span></div>
+  <div class="abs mono tr" id="tr2" style="left:108px; width:864px; text-align:right; top:1042px; font-size:35px; letter-spacing:0.02em"><span>wa ash-hadu</span> <span>anna</span> <span>muḥammadan</span> <span>rasūlu-llāh</span></div>
+  <div class="abs disp" style="left:104px; top:1270px; font-size:78px; line-height:1.06">
+    <div class="m"><span id="d-l1">“I bear witness there is</span></div>
+    <div class="m"><span id="d-l2">no god but God, and that</span></div>
+    <div class="m"><span id="d-l3">Muhammad is the</span></div>
+    <div class="m"><span id="d-l4">messenger of God.”</span></div>
+  </div>
+</div>
+
+<!-- 04 PURIFY -->
+<div class="scene" id="s4" style="--fg: var(--ink); --hl: var(--acc)">
+  <div class="hdr"><div class="num disp m"><span>04</span></div><div class="lab mono"></div><div class="seg"><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="abs disp" style="left:100px; top:1300px; font-size:196px">
+    <div class="m"><span id="p-l1">Take a</span></div>
+    <div class="m"><span id="p-l2">ghusl.</span></div>
+  </div>
+  <div class="abs mono" id="p-sub" style="left:108px; top:1696px; font-size:38px; color:var(--acc)"></div>
+</div>
+
+<!-- 05 PRAY -->
+<div class="scene" id="s5" style="--fg: var(--paper); --hl: var(--acc)">
+  <div class="hdr"><div class="num disp m"><span>05</span></div><div class="lab mono"></div><div class="seg"><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div id="pl"></div>
+  <div class="abs disp" id="cnt" style="left:440px; top:1210px; width:200px; height:230px; overflow:hidden; font-size:230px; text-align:center; line-height:230px"><div id="cnt-col">0<br>1<br>2<br>3<br>4<br>5</div></div>
+  <div class="abs disp" style="left:100px; top:1478px; font-size:118px; line-height:1">
+    <div class="m"><span id="r-l1">Pray five times</span></div>
+    <div class="m"><span id="r-l2">a day.</span></div>
+  </div>
+</div>
+
+<!-- OUTRO -->
+<div class="scene" id="s6" style="--fg: var(--ink)">
+  <div class="abs disp" id="o-ar" dir="rtl" style="left:340px; top:612px; width:400px; text-align:center; font-size:96px; line-height:1.3; color:var(--acc)">الإسلام</div>
+  <div class="abs disp" style="left:100px; top:1080px; font-size:184px">
+    <div class="m"><span id="o-l1">Welcome</span></div>
+    <div class="m"><span id="o-l2">to Islam.</span></div>
+  </div>
+  <div class="abs mono" id="o-rail" style="left:108px; top:1500px; font-size:31px"><span>Know</span> · <span>Believe</span> · <span>Declare</span> · <span>Purify</span> · <span>Pray</span></div>
+  <div class="abs mono" id="o-end" style="left:108px; top:1590px; font-size:36px"></div>
+</div>
+
+<canvas id="fx" width="1080" height="1920"></canvas>
+
+<script src="beats.js"></script>
+<script>
+// ---------------------------------------------------------------------------
+// Pure function of time. seek(t) recomputes every pixel from t alone.
+// All cue times are written in nominal seconds at 120 BPM and mapped through
+// the beat grid measured from the score (beats.js), so picture locks to sound.
+// ---------------------------------------------------------------------------
+const W = 1080, H = 1920;
+const INK = "#111312", PAPER = "#efe9dd", ACC = "#14a874";
+const T = (s) => BEATS.t0 + (s / 0.5) * BEATS.period;
+const $ = (s) => document.querySelector(s);
+const bg = $("#bg").getContext("2d"), fx = $("#fx").getContext("2d");
+
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, d) => clamp((t - T(a)) / (d * BEATS.period / 0.5));
+const lerp = (a, b, p) => a + (b - a) * p;
+const eo = (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p));
+const ei = (p) => (p <= 0 ? 0 : Math.pow(2, 10 * (p - 1)));
+const eio = (p) => (p < 0.5 ? ei(2 * p) / 2 : (1 + eo(2 * p - 1)) / 2);
+const c3 = (p) => 1 - Math.pow(1 - p, 3);
+// Damped spring step response; x = seconds since start.
+const spr = (x, f = 2.4, z = 0.42) => {
+  if (x <= 0) return 0;
+  const w = 2 * Math.PI * f, wd = w * Math.sqrt(1 - z * z);
+  return 1 - Math.exp(-z * w * x) * (Math.cos(wd * x) + (z * w / wd) * Math.sin(wd * x));
+};
+// Decaying kick for "punch" on a hit.
+const kick = (x, f = 3, d = 5) => (x <= 0 ? 0 : Math.sin(2 * Math.PI * f * x) * Math.exp(-d * x));
+function mulberry32(a) {
+  return () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const mix = (a, b, p) => { const x = hex(a), y = hex(b); return `rgb(${x.map((v, i) => Math.round(lerp(v, y[i], p))).join(",")})`; };
+
+// Text helpers ---------------------------------------------------------------
+function rev(el, t, a, d = 0.5) { const p = eo(P(t, a, d)); el.style.transform = `translateY(${(1 - p) * 108}%)`; }
+function type(el, full, t, a, cps = 38) {
+  const n = Math.floor(clamp((t - T(a)) * cps, 0, full.length));
+  if (el._n !== n) { el.textContent = full.slice(0, n); el._n = n; }
+}
+function header(sc, t, a, label, idx) {
+  const h = sc.querySelector(".hdr");
+  rev(h.querySelector(".num span"), t, a, 0.45);
+  type(h.querySelector(".lab"), label, t, a + 0.1, 30);
+  h.querySelectorAll(".seg i").forEach((el, i) => {
+    el.className = i < idx ? "done" : i === idx ? "cur" : "";
+    const p = i === idx ? eo(P(t, a + 0.15, 0.5)) : 1;
+    el.style.transform = `scaleX(${p})`;
+  });
+}
+
+// Canvas helpers -------------------------------------------------------------
+const K = 0.7654; // inner/outer radius of the two-square eight-point star
+function squarePath(c, cx, cy, r, rot) {
+  c.beginPath();
+  for (let k = 0; k <= 4; k++) { const a = rot + k * Math.PI / 2; c[k ? "lineTo" : "moveTo"](cx + r * Math.cos(a), cy + r * Math.sin(a)); }
+  c.closePath();
+}
+function starPoly(c, cx, cy, R, rot) {
+  c.beginPath();
+  for (let k = 0; k < 16; k++) { const a = rot + k * Math.PI / 8, r = k % 2 ? R * K : R; c[k ? "lineTo" : "moveTo"](cx + r * Math.cos(a), cy + r * Math.sin(a)); }
+  c.closePath();
+}
+// Draw a closed square stroke partially (0..1) without dash state leaking.
+function drawSquare(c, cx, cy, r, rot, p) {
+  if (p <= 0) return;
+  const per = 4 * r * Math.SQRT2;
+  c.setLineDash([per * p, per]); c.lineDashOffset = 0;
+  squarePath(c, cx, cy, r, rot); c.stroke(); c.setLineDash([]);
+}
+function fill(c, col) { c.fillStyle = col; c.fillRect(0, 0, W, H); }
+
+// --- Scene windows (nominal seconds) ---------------------------------------
+const S = [0, 2, 5, 8, 12, 14.5, 17.5, 20.5];
+const scenes = [...document.querySelectorAll(".scene")];
+
+// ===== HOOK ================================================================
+function hook(t) {
+  const sc = scenes[0];
+  fill(bg, INK);
+  const cx = 540, cy = 1190, R = 300;
+  const rot = -Math.PI / 8 + (t - T(0)) * 0.35 + (Math.PI / 4) * (spr(t - T(1)) + spr(t - T(1.5)));
+  const punch = 1 + 0.07 * kick(t - T(1)) + 0.07 * kick(t - T(1.5));
+  bg.save(); bg.translate(cx, cy); bg.scale(punch, punch); bg.translate(-cx, -cy);
+  // Construction guides: 16 rays + compass circles.
+  const g = eo(clamp((t - T(0) + 0.45) / 0.9));
+  bg.strokeStyle = "rgba(239,233,221,0.16)"; bg.lineWidth = 2;
+  for (let k = 0; k < 16; k++) {
+    const a = rot + k * Math.PI / 8; bg.beginPath();
+    bg.moveTo(cx + R * 0.25 * Math.cos(a), cy + R * 0.25 * Math.sin(a));
+    bg.lineTo(cx + (R * 0.25 + 760 * g) * Math.cos(a), cy + (R * 0.25 + 760 * g) * Math.sin(a)); bg.stroke();
+  }
+  const cp = eo(clamp((t - T(0) + 0.5) / 0.8));
+  bg.strokeStyle = "rgba(239,233,221,0.55)"; bg.lineWidth = 3;
+  bg.beginPath(); bg.arc(cx, cy, R, rot, rot + cp * 2 * Math.PI); bg.stroke();
+  bg.beginPath(); bg.arc(cx, cy, R * K, rot + Math.PI, rot + Math.PI + cp * 2 * Math.PI); bg.stroke();
+  // The star: two squares drawing on.
+  bg.strokeStyle = ACC; bg.lineWidth = 12; bg.lineJoin = "miter";
+  drawSquare(bg, cx, cy, R, rot, eio(clamp((t - T(0) + 0.38) / 0.7)));
+  drawSquare(bg, cx, cy, R, rot + Math.PI / 4, eio(clamp((t - T(0) + 0.25) / 0.7)));
+  // Inner octagon snaps in on beat 2.
+  const io = spr(t - T(1));
+  if (io > 0) { bg.save(); bg.translate(cx, cy); bg.scale(io, io); bg.fillStyle = ACC; starPoly(bg, 0, 0, R * 0.36, -rot * 1.5); bg.fill(); bg.restore(); }
+  bg.restore();
+
+  type($("#h-kick"), "How to", t, -0.1, 30);
+  rev($("#h-l1"), t, -0.1, 0.45); rev($("#h-l2"), t, 0.12, 0.45);
+  type($("#h-steps"), "In five steps  →", t, 0.9, 30);
+  // Transition: paper star expands from the star centre.
+  const x = P(t, 1.6, 0.4);
+  if (x > 0) { fx.fillStyle = PAPER; starPoly(fx, cx, cy, lerp(R * 0.36, 3300, ei(x)), rot); fx.fill(); }
+}
+
+// ===== 01 KNOW =============================================================
+const DOTS = (() => {
+  const r = mulberry32(99), out = [];
+  for (let i = 0; i < 99; i++) out.push({ x: 108 + r() * 864, y: 520 + r() * 660, r: 6 + r() * 12, d: r() * 0.45, ph: r() * 6.28, acc: i % 11 === 0 });
+  return out;
+})();
+const KX = 540, KY = 860;
+function know(t) {
+  const sc = scenes[1];
+  fill(bg, PAPER);
+  header(sc, t, 2.0, "Know", 0);
+  const pos = (d, tt) => {
+    const appear = eo(clamp((tt - T(2.0) - d.d * 0.35) / 0.3));
+    const pc = spr(tt - T(2.4) - d.d * 1.3, 1.1, 0.55);
+    const wob = 10 * Math.sin(tt * 3 + d.ph);
+    return { x: lerp(d.x + wob, KX, pc), y: lerp(d.y + wob * 0.6, KY, pc), r: d.r * appear * (1 - 0.85 * clamp(pc)), pc };
+  };
+  for (const d of DOTS) {
+    const a = pos(d, t), b = pos(d, t - 1 / 30);
+    if (a.r <= 0.2) continue;
+    bg.strokeStyle = d.acc ? ACC : INK; bg.lineCap = "round"; bg.lineWidth = a.r * 2;
+    bg.beginPath(); bg.moveTo(b.x, b.y); bg.lineTo(a.x + 0.01, a.y); bg.stroke();
+  }
+  // The one dot.
+  const one = 48 * spr(t - T(3.45), 2.2, 0.35);
+  if (one > 0) { bg.fillStyle = INK; bg.beginPath(); bg.arc(KX, KY, one, 0, 7); bg.fill(); }
+  for (let k = 0; k < 3; k++) {
+    const p = P(t, 3.5 + k * 0.12, 1.2);
+    if (p <= 0 || p >= 1) continue;
+    bg.strokeStyle = ACC; bg.lineWidth = 14 * (1 - p);
+    bg.beginPath(); bg.arc(KX, KY, 56 + 290 * eo(p), 0, 7); bg.stroke();
+  }
+  rev($("#k-l1"), t, 3.5, 0.45); rev($("#k-l2"), t, 3.65, 0.45);
+  type($("#k-sub"), "Tawhid · the Oneness of God", t, 4.0, 60);
+  // Transition: the one dot becomes the night.
+  const x = P(t, 4.6, 0.4);
+  if (x > 0) { fx.fillStyle = INK; fx.beginPath(); fx.arc(KX, KY, 48 + 2300 * ei(x), 0, 7); fx.fill(); }
+}
+
+// ===== 02 BELIEVE ==========================================================
+const NAMES = [["Adam", "آدم"], ["Noah", "نوح"], ["Abraham", "إبراهيم"], ["Moses", "موسى"], ["Jesus", "عيسى"], ["Muhammad", "محمد"]];
+const LOCK = [5.0, 5.25, 5.5, 5.75, 6.0, 6.5];
+const reel = $("#reel");
+NAMES.forEach(([en, ar]) => {
+  const row = document.createElement("div");
+  row.className = "abs"; row.style.cssText = "left:0; width:864px; height:180px; transform-origin:left center";
+  row.innerHTML = `<div class="abs disp en" style="left:0; top:14px; font-size:122px; transform-origin:left 60%">${en}</div><div class="abs ar" dir="rtl" style="right:0; top:30px; font:700 76px/1.3 'Plex Arabic'; transform-origin:right 60%">${ar}</div>`;
+  reel.appendChild(row);
+});
+const FOCUS = 560, ROW = 210;
+function believe(t) {
+  const sc = scenes[2];
+  fill(bg, INK);
+  header(sc, t, 5.0, "Believe", 1);
+  let s = -1.4 + 1.4 * eo(P(t, 4.9, 0.3));
+  for (let i = 1; i < 6; i++) s += eo(P(t, LOCK[i] - 0.06, i === 5 ? 0.32 : 0.22));
+  [...reel.children].forEach((row, i) => {
+    const y = FOCUS + (i - s) * ROW, d = Math.abs(i - s);
+    const final = i === 5 ? clamp(eo(P(t, 6.5, 0.2))) : 0;
+    const sc_ = 1 - 0.45 * clamp(d / 1.2) + 0.08 * kick(t - T(6.5), 2.5, 6) * (i === 5);
+    row.style.transform = `translateY(${y - 90}px)`;
+    row.querySelector(".en").style.transform = row.querySelector(".ar").style.transform = `scale(${sc_})`;
+    const col = d < 0.5 ? (final ? mix(PAPER, ACC, final) : PAPER) : mix(PAPER, "#3a3d3b", clamp((d - 0.5) / 0.8));
+    row.style.color = col;
+    row.querySelector(".ar").style.color = d < 0.5 ? ACC : col;
+    row.style.visibility = d > 2.3 ? "hidden" : "visible";
+  });
+  // Focus rail: hairline that ticks a notch per prophet.
+  const ry = 470 + FOCUS + 96;
+  bg.fillStyle = "rgba(239,233,221,0.22)"; bg.fillRect(108, ry, 864 * eo(P(t, 4.95, 0.4)), 3);
+  const n = Math.min(6, Math.max(0, s + 1));
+  bg.fillStyle = ACC; bg.fillRect(108, ry - 4, (864 / 6) * n, 11);
+  type($("#b-final"), "Seal of the prophets", t, 6.75, 34);
+  type($("#b-pbuh"), "Peace be upon him", t, 6.95, 40);
+  rev($("#b-l1"), t, 6.8, 0.45); rev($("#b-l2"), t, 6.95, 0.45);
+  // Transition: accent columns rise.
+  for (let k = 0; k < 6; k++) {
+    const x = P(t, 7.5 + k * 0.04, 0.3);
+    if (x <= 0) continue;
+    const h = H * eio(x); fx.fillStyle = ACC; fx.fillRect(k * 180, H - h, 181, h);
+  }
+}
+
+// ===== 03 DECLARE ==========================================================
+const AR = [
+  { el: $("#ar1"), tr: $("#tr1"), times: [8.25, 8.5, 8.75, 9.0, 9.25] },
+  { el: $("#ar2"), tr: $("#tr2"), times: [10.0, 10.25, 10.5, 10.75] },
+];
+function layoutShahada() {
+  // Fit both lines to the safe width with one shared size, then cache word edges.
+  let fs = 132;
+  for (const a of AR) a.el.style.fontSize = fs + "px";
+  const widest = Math.max(...AR.map((a) => a.el.querySelector(".arin").getBoundingClientRect().width));
+  fs = Math.min(fs, Math.floor(fs * 860 / widest));
+  for (const a of AR) {
+    a.el.style.fontSize = fs + "px";
+    const box = a.el.getBoundingClientRect();
+    a.left = box.left; a.right = box.right;
+    a.edges = [...a.el.querySelectorAll(".g")].map((g) => g.getBoundingClientRect().left - 6);
+    a.edges[a.edges.length - 1] = a.el.querySelector(".arin").getBoundingClientRect().left - 10;
+    a.top = box.top; a.h = box.height;
+  }
+}
+const LAT = (() => { const out = []; for (let y = -1; y < 13; y++) for (let x = -1; x < 8; x++) out.push({ x: x * 170 + (y % 2) * 85, y: y * 170 }); return out; })();
+function declare(t) {
+  const sc = scenes[3];
+  fill(bg, ACC);
+  // Lattice of eight-point stars drawing outward from the centre on the downbeat.
+  const pan = (t - T(8)) * 26;
+  bg.strokeStyle = "rgba(17,19,18,0.13)"; bg.lineWidth = 3;
+  for (const s of LAT) {
+    const x = s.x, y = s.y - pan + 40, dist = Math.hypot(x - 540, y - 960);
+    const p = eo(clamp((t - T(8) - dist / 2600) / 0.7));
+    if (p <= 0) continue;
+    const rot = (t - T(8)) * 0.25 * (((s.x / 85 + s.y / 170) & 1) ? 1 : -1);
+    drawSquare(bg, x, y, 62, rot, p); drawSquare(bg, x, y, 62, rot + Math.PI / 4, p);
+  }
+  header(sc, t, 8.0, "Declare", 2);
+  type($("#d-sub"), "The Shahada · say it and mean it", t, 8.2, 50);
+  for (const a of AR) {
+    let X = a.right, prev = a.right;
+    a.times.forEach((tk, k) => { X += eo(P(t, tk, 0.3)) * (a.edges[k] - prev); prev = a.edges[k]; });
+    a.el.style.clipPath = `inset(-40px ${0}px -40px ${Math.max(0, X - a.left)}px)`;
+    // Pen: the writing edge.
+    const active = X < a.right - 1 && X > a.edges[a.edges.length - 1] + 1;
+    if (active) { bg.fillStyle = INK; bg.fillRect(X - 3, a.top + a.h * 0.18, 6, a.h * 0.7); }
+    [...a.tr.children].forEach((w, k) => { w.style.color = t >= T(a.times[k]) ? INK : "rgba(17,19,18,0.28)"; });
+  }
+  // Rule above the meaning.
+  bg.fillStyle = INK; bg.fillRect(108, 1200, 864 * eo(P(t, 9.1, 0.5)), 5);
+  rev($("#d-l1"), t, 9.25, 0.45); rev($("#d-l2"), t, 9.4, 0.45);
+  rev($("#d-l3"), t, 10.75, 0.45); rev($("#d-l4"), t, 10.9, 0.45);
+  // Transition: diagonal paper wipe.
+  const x = P(t, 11.6, 0.4);
+  if (x > 0) {
+    const d = lerp(-300, 2600, eio(x));
+    fx.fillStyle = PAPER; fx.beginPath(); fx.moveTo(0, H); fx.lineTo(0, H - d); fx.lineTo(W, H - d - 700); fx.lineTo(W, H); fx.closePath(); fx.fill();
+  }
+}
+
+// ===== 04 PURIFY ===========================================================
+const SY = 1130;
+const SPL = (() => { const r = mulberry32(4), o = []; for (let i = 0; i < 12; i++) o.push({ vx: (r() - 0.5) * 760, vy: -500 - r() * 520, r: 5 + r() * 8 }); return o; })();
+function ripple(t, t0, x0, scale) {
+  const out = [];
+  for (let k = 0; k < 4; k++) {
+    const p = P(t, t0 + k * 0.13, 1.4);
+    if (p <= 0 || p >= 1) continue;
+    const rx = (24 + 520 * eo(p)) * scale;
+    bg.strokeStyle = ACC; bg.lineWidth = 10 * (1 - p) * scale + 0.5;
+    bg.beginPath(); bg.ellipse(x0, SY, rx, rx * 0.2, 0, 0, 7); bg.stroke();
+  }
+}
+function surfaceY(x, t) {
+  let y = SY;
+  for (const [t0, x0, A] of [[12.5, 540, 34], [13.5, 760, 16]]) {
+    const dt = t - T(t0); if (dt <= 0) continue;
+    const dx = Math.abs(x - x0), front = 900 * dt;
+    if (dx > front) continue;
+    y += A * Math.exp(-dt * 2.4) * Math.exp(-dx / 520) * Math.sin(dx / 34 - dt * 22) * clamp((front - dx) / 60);
+  }
+  return y;
+}
+function purify(t) {
+  const sc = scenes[4];
+  fill(bg, PAPER);
+  header(sc, t, 12.0, "Purify", 3);
+  // Surface line.
+  bg.strokeStyle = INK; bg.lineWidth = 4; bg.beginPath();
+  for (let x = 0; x <= W; x += 6) bg[x ? "lineTo" : "moveTo"](x, surfaceY(x, t));
+  bg.stroke();
+  // Drops: fall under gravity, stretch as they speed up.
+  for (const [t0, x0, s] of [[12.5, 540, 1], [13.5, 760, 0.6]]) {
+    const fallT = 0.5, p = clamp((t - T(t0 - fallT)) / (fallT * BEATS.period / 0.5));
+    if (p > 0 && p < 1) {
+      const y = lerp(SY - 640 * s, SY, p * p), st = 1 + 0.6 * p, pop = eo(clamp(p * 4));
+      bg.fillStyle = ACC; bg.save(); bg.translate(x0, y - 30 * s * st); bg.scale(s * pop, s * st * pop);
+      bg.beginPath(); bg.moveTo(0, -46); bg.bezierCurveTo(16, -18, 26, 4, 26, 18); bg.arc(0, 18, 26, 0, Math.PI); bg.bezierCurveTo(-26, 4, -16, -18, 0, -46); bg.fill(); bg.restore();
+    }
+    ripple(t, t0, x0, s);
+    const dt = t - T(t0);
+    if (dt > 0) for (const d of SPL) {
+      const x = x0 + d.vx * dt * s, y = SY + d.vy * dt * s + 1300 * dt * dt;
+      if (y < SY) { bg.fillStyle = ACC; bg.beginPath(); bg.arc(x, y, d.r * s, 0, 7); bg.fill(); }
+    }
+  }
+  rev($("#p-l1"), t, 12.55, 0.45); rev($("#p-l2"), t, 12.7, 0.45);
+  type($("#p-sub"), "Recommended · a full ritual bath", t, 13.0, 40);
+  // Transition: the ink tide rises.
+  const x = P(t, 14.0, 0.5);
+  if (x > 0) {
+    const top = lerp(H + 80, -160, eio(x));
+    fx.fillStyle = INK; fx.beginPath(); fx.moveTo(0, H);
+    for (let px = 0; px <= W; px += 8) fx.lineTo(px, top + 46 * Math.sin(px / 130 + t * 7) + 20 * Math.sin(px / 57 - t * 11));
+    fx.lineTo(W, H); fx.closePath(); fx.fill();
+  }
+}
+
+// ===== 05 PRAY =============================================================
+const PRAY = [["Fajr", "الفجر", 168], ["Dhuhr", "الظهر", 86], ["Asr", "العصر", 40], ["Maghrib", "المغرب", 2], ["Isha", "العشاء", -36]];
+const PT = [15.0, 15.5, 16.0, 16.5, 17.0];
+const PC = { x: 540, y: 1100 }, PR = 340;
+const pl = $("#pl");
+PRAY.forEach(([en, ar]) => {
+  const d = document.createElement("div");
+  d.className = "abs"; d.style.cssText = "width:240px; text-align:center; transform-origin:50% 50%";
+  d.innerHTML = `<div class="mono" style="font-size:34px">${en}</div><div style="font:700 52px/1.2 'Plex Arabic'; color:var(--acc)">${ar}</div>`;
+  pl.appendChild(d);
+});
+const rad = (a) => (a * Math.PI) / 180;
+function pray(t) {
+  const sc = scenes[5];
+  fill(bg, INK);
+  header(sc, t, 14.5, "Pray", 4);
+  const arcP = eo(P(t, 14.55, 0.5));
+  bg.strokeStyle = "rgba(239,233,221,0.3)"; bg.lineWidth = 3;
+  bg.fillRect(108, PC.y - 1, 864 * arcP, 2);
+  bg.beginPath(); bg.arc(PC.x, PC.y, PR, Math.PI, Math.PI + Math.PI * arcP); bg.stroke();
+  bg.setLineDash([6, 14]); bg.beginPath(); bg.arc(PC.x, PC.y, PR, 0, rad(50) * arcP); bg.stroke(); bg.setLineDash([]);
+  // Sun angle: snaps prayer to prayer on the beat.
+  let a = 196, prev = 196;
+  PRAY.forEach((p, k) => { a += eo(P(t, PT[k] - 0.1, 0.3)) * (p[2] - prev); prev = p[2]; });
+  bg.strokeStyle = ACC; bg.lineWidth = 8; bg.lineCap = "round";
+  if (a < 194) { bg.beginPath(); bg.arc(PC.x, PC.y, PR, -rad(194), -rad(a)); bg.stroke(); }
+  PRAY.forEach((p, k) => {
+    const on = t >= T(PT[k]), pop = spr(t - T(PT[k]), 3, 0.35);
+    const x = PC.x + PR * Math.cos(rad(p[2])), y = PC.y - PR * Math.sin(rad(p[2]));
+    bg.fillStyle = on ? ACC : "rgba(239,233,221,0.45)";
+    bg.beginPath(); bg.arc(x, y, on ? 10 + 6 * pop : 7 * arcP, 0, 7); bg.fill();
+    const el = pl.children[k], lr = PR - 120;
+    el.style.left = PC.x + lr * Math.cos(rad(p[2])) - 120 + "px";
+    el.style.top = PC.y - lr * Math.sin(rad(p[2])) - 52 + "px";
+    el.style.transform = `scale(${pop})`;
+    el.style.visibility = pop > 0.001 ? "visible" : "hidden";
+  });
+  const sx = PC.x + PR * Math.cos(rad(a)), sy = PC.y - PR * Math.sin(rad(a));
+  if (arcP > 0.2) { bg.fillStyle = PAPER; bg.beginPath(); bg.arc(sx, sy, 26 * eo(P(t, 14.7, 0.3)), 0, 7); bg.fill(); }
+  // Counter rolls 0 → 5.
+  let c = 0; PT.forEach((tk) => (c += eo(P(t, tk, 0.25))));
+  $("#cnt-col").style.transform = `translateY(${-c * 230}px)`;
+  $("#cnt").style.clipPath = `inset(0 0 ${(1 - eo(P(t, 14.75, 0.3))) * 100}% 0)`;
+  rev($("#r-l1"), t, 15.1, 0.45); rev($("#r-l2"), t, 15.25, 0.45);
+  // Transition: a star blooms from the Isha sun.
+  const x = P(t, 17.1, 0.4);
+  if (x > 0) { fx.fillStyle = ACC; starPoly(fx, sx, sy, lerp(26, 3600, ei(x)), x * 1.2); fx.fill(); }
+}
+
+// ===== OUTRO ===============================================================
+function outro(t) {
+  const sc = scenes[6];
+  fill(bg, ACC);
+  const cx = 540, cy = 700, R = 270;
+  const rot = (t - T(17.5)) * 0.4 + (Math.PI / 4) * spr(t - T(19), 2.2, 0.4);
+  bg.strokeStyle = INK; bg.lineWidth = 12; bg.lineJoin = "miter";
+  drawSquare(bg, cx, cy, R, rot, eio(P(t, 17.5, 0.55)));
+  drawSquare(bg, cx, cy, R, rot + Math.PI / 4, eio(P(t, 17.62, 0.55)));
+  bg.strokeStyle = "rgba(17,19,18,0.35)"; bg.lineWidth = 3;
+  const cp = eo(P(t, 17.55, 0.7));
+  bg.beginPath(); bg.arc(cx, cy, R * 1.12, rot, rot + cp * 2 * Math.PI); bg.stroke();
+  const f = spr(t - T(19), 2.4, 0.38);
+  if (f > 0) { bg.save(); bg.translate(cx, cy); bg.scale(f, f); bg.fillStyle = INK; starPoly(bg, 0, 0, R * 0.86, rot); bg.fill(); bg.restore(); }
+  $("#o-ar").style.transform = `scale(${f})`;
+  rev($("#o-l1"), t, 17.7, 0.45); rev($("#o-l2"), t, 17.85, 0.45);
+  const rail = $("#o-rail");
+  rail.style.clipPath = `inset(0 ${(1 - eo(P(t, 18.1, 0.35))) * 100}% 0 0)`;
+  [...rail.children].forEach((s, k) => { s.style.color = t >= T(18.25 + k * 0.125) ? INK : "rgba(17,19,18,0.35)"; });
+  type($("#o-end"), "Keep learning — one step at a time", t, 19.0, 58);
+}
+
+const RUN = [hook, know, believe, declare, purify, pray, outro];
+let shown = -1;
+window.seek = (t) => {
+  let i = 0; while (i < RUN.length - 1 && t >= T(S[i + 1])) i++;
+  if (i !== shown) { scenes.forEach((s, k) => (s.style.display = k === i ? "block" : "none")); shown = i; }
+  fx.clearRect(0, 0, W, H);
+  RUN[i](t);
+};
+window.ready = (async () => {
+  await Promise.all([
+    document.fonts.load('400 60px "Plex Arabic"', "محمد Abc"), document.fonts.load('700 60px "Plex Arabic"', "محمد ﷺ Abc"),
+    document.fonts.load('500 40px "Plex Mono"', "Abc"),
+  ]);
+  await document.fonts.ready;
+  scenes[3].style.display = "block"; layoutShahada(); scenes[3].style.display = "none";
+  window.seek(0);
+  return { status: [...document.fonts].map((f) => f.family + " " + f.weight + ":" + f.status), check: document.fonts.check('700 60px "Plex Arabic"', "محمد") && document.fonts.check('500 40px "Plex Mono"', "A") };
+})();
+</script>
+</body>
+</html>
