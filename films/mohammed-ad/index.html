@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mohammed Boudrioua</title>
+<style>
+  @font-face { font-family: "Plex"; font-weight: 700; src: url("../../fonts/IBMPlexSansArabic-Bold.ttf") format("truetype"); font-display: block; }
+  @font-face { font-family: "Plex Mono"; font-weight: 500; src: url("../../fonts/IBMPlexMono-Medium-latin.woff2") format("woff2"); font-display: block; }
+  :root { --ink: #0e1726; --paper: #f3efe7; --acc: #d9512c; --mute: #8a93a3; }
+  html, body { margin: 0; width: 1080px; height: 1350px; overflow: hidden; background: var(--ink); }
+  canvas { position: absolute; left: 0; top: 0; }
+  #fx { z-index: 50; } #grain { z-index: 60; pointer-events: none; }
+  .scene { position: absolute; inset: 0; display: none; transform-origin: 50% 45%; }
+  .disp { font-family: "Plex", sans-serif; font-weight: 700; letter-spacing: -0.035em; line-height: 0.95; }
+  .mono { font-family: "Plex Mono", monospace; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; white-space: pre; }
+  .abs { position: absolute; }
+  .m { display: block; overflow: hidden; padding: 0.04em 0 0.14em; margin: -0.04em 0 -0.14em; }
+  .m > span { display: inline-block; will-change: transform; }
+  .name .c { display: inline-block; text-align: center; }
+  .card { position: absolute; border-radius: 14px; overflow: hidden; box-shadow: 0 30px 70px rgba(14, 23, 38, 0.22), 0 4px 12px rgba(14, 23, 38, 0.12); background: #fff; }
+  .card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .ring { position: absolute; border-radius: 50%; background: var(--paper); padding: 10px; box-sizing: border-box; }
+  .ring img { display: block; width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<canvas id="bg" width="1080" height="1350"></canvas>
+
+<!-- 1 HOOK -->
+<div class="scene" id="s0" style="color:var(--paper)">
+  <div class="abs mono" style="left:90px; top:450px; font-size:44px; color:var(--acc)"><span id="h-prompt"></span><span id="h-cur" style="display:inline-block; width:24px; height:44px; vertical-align:-8px; background:var(--acc); margin-left:6px"></span></div>
+  <div class="abs disp name" id="h-name" style="left:84px; top:550px"><div class="l">Mohammed</div><div class="l">Boudrioua</div></div>
+  <div class="abs mono" id="h-sub" style="left:90px; top:960px; font-size:34px; color:var(--mute)"></div>
+</div>
+
+<!-- 2 PLACE -->
+<div class="scene" id="s1" style="color:var(--ink)">
+  <div class="abs mono" id="p-kick" style="left:90px; top:120px; font-size:34px; color:var(--acc)"></div>
+  <div class="abs disp" style="left:84px; top:180px; font-size:150px">
+    <div class="m"><span id="p-l1">Ifrane,</span></div>
+    <div class="m"><span id="p-l2">Morocco.</span></div>
+  </div>
+  <div class="abs" id="band" style="left:0; top:520px; width:1080px; height:300px; overflow:hidden"><img id="campus" src="src/img/campus.png" style="position:absolute; left:0; top:0; height:300px"></div>
+  <div class="ring" id="p-photo" style="left:80px; top:670px; width:320px; height:320px"><img src="src/img/photo.png"></div>
+  <div class="abs mono" id="p-yr" style="left:440px; top:850px; font-size:32px; color:var(--acc)"></div>
+  <div class="abs disp" style="left:436px; top:896px; font-size:58px">
+    <div class="m"><span id="p-cs">Computer Science</span></div>
+  </div>
+  <div class="abs mono" id="p-aui" style="left:440px; top:968px; font-size:28px"></div>
+</div>
+
+<!-- 3 ORIGIN -->
+<div class="scene" id="s2" style="color:var(--paper)">
+  <div class="abs disp" style="left:84px; top:150px; font-size:124px">
+    <div class="m"><span id="o-l1">Physics first.</span></div>
+    <div class="m"><span id="o-l2" style="color:var(--acc)">Then code.</span></div>
+  </div>
+  <div class="abs mono" id="o-sig" style="left:90px; top:560px; font-size:28px; color:var(--mute)"></div>
+  <div class="abs mono" id="o-b1" style="left:90px; top:1010px; font-size:32px"></div>
+  <div class="abs mono" id="o-b2" style="left:90px; top:1060px; font-size:32px; color:var(--acc)"></div>
+</div>
+
+<!-- 4 PROOF -->
+<div class="scene" id="s3" style="color:var(--ink)">
+  <div class="abs mono" id="c-kick" style="left:90px; top:110px; font-size:32px; color:var(--acc)"></div>
+  <div id="cards"></div>
+  <div id="caps"></div>
+  <div class="abs disp" id="cnt" style="left:640px; top:330px; width:300px; height:380px; overflow:hidden; font-size:380px; line-height:380px; color:var(--acc)"><div id="cnt-col"></div></div>
+  <div class="abs mono" id="cnt-lab" style="left:650px; top:720px; font-size:30px; line-height:1.4"></div>
+  <div id="tl"></div>
+</div>
+
+<!-- 5 RESEARCH -->
+<div class="scene" id="s4" style="color:var(--paper)">
+  <div class="abs disp" style="left:84px; top:96px; font-size:150px">
+    <div class="m"><span id="r-l1">Research.</span></div>
+  </div>
+  <div class="card" id="r-card" style="left:90px; top:330px; width:900px; height:636px"><img src="src/img/cert_surp.png"></div>
+  <div class="abs mono" id="r-m1" style="left:90px; top:1000px; font-size:28px"></div>
+  <div class="abs mono" id="r-m2" style="left:90px; top:1044px; font-size:30px; color:var(--mute)"></div>
+  <div class="abs mono" id="r-chip" style="left:90px; top:1120px; padding:22px 30px; border-radius:60px; background:var(--acc); color:var(--ink); font-size:30px; line-height:1.35">Agentic AI Conference · Apr 2026<br><span style="opacity:0.7">Data Science Dojo</span></div>
+</div>
+
+<!-- 6 CTA -->
+<div class="scene" id="s5" style="color:var(--ink)">
+  <div class="ring" id="e-photo" style="left:80px; top:120px; width:420px; height:420px"><img src="src/img/photo.png"></div>
+  <div class="abs disp" id="e-num" style="left:548px; top:200px; font-size:170px"><span id="e-n">0</span><span id="e-plus" style="display:inline-block; color:var(--acc)">+</span></div>
+  <div class="abs mono" id="e-lab" style="left:556px; top:380px; font-size:30px; color:var(--mute)"></div>
+  <div class="abs disp name" id="e-name" style="left:84px; top:600px"><div class="m"><span>Mohammed</span></div><div class="m"><span>Boudrioua</span></div></div>
+  <div class="abs mono" id="e-sub" style="left:90px; top:950px; font-size:30px"></div>
+  <div class="abs mono" id="e-btn" style="left:90px; top:1050px; height:120px; line-height:120px; padding:0 52px; border-radius:60px; background:var(--ink); color:var(--paper); font-size:40px; transform-origin:left center">Connect on LinkedIn  →</div>
+  <svg id="e-cur" class="abs" width="60" height="72" viewBox="0 0 30 36" style="left:0; top:0; transform-origin:4px 3px"><path d="M3 2 L3 28 L10 21 L15 33 L20 31 L15 19 L25 19 Z" fill="#0e1726" stroke="#f3efe7" stroke-width="2" stroke-linejoin="round"/></svg>
+</div>
+
+<canvas id="fx" width="1080" height="1350"></canvas>
+<canvas id="grain" width="1080" height="1350"></canvas>
+
+<script src="beats.js"></script>
+<script>
+// Pure function of time: seek(t) recomputes every pixel from t alone. Cue times are nominal
+// seconds at 120 BPM, mapped through the beat grid measured from the score (beats.js).
+const W = 1080, H = 1350;
+const INK = "#0e1726", PAPER = "#f3efe7", ACC = "#d9512c";
+const T = (s) => BEATS.t0 + (s / 0.5) * BEATS.period;
+const $ = (s) => document.querySelector(s);
+const bg = $("#bg").getContext("2d"), fx = $("#fx").getContext("2d"), gr = $("#grain").getContext("2d");
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, d) => clamp((t - T(a)) / (d * BEATS.period / 0.5));
+const lerp = (a, b, p) => a + (b - a) * p;
+const eo = (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p));
+const ei = (p) => (p <= 0 ? 0 : Math.pow(2, 10 * (p - 1)));
+const eio = (p) => (p < 0.5 ? ei(2 * p) / 2 : (1 + eo(2 * p - 1)) / 2);
+const c3 = (p) => 1 - Math.pow(1 - p, 3);
+const spr = (x, f = 2.4, z = 0.42) => {
+  if (x <= 0) return 0;
+  const w = 2 * Math.PI * f, wd = w * Math.sqrt(1 - z * z);
+  return 1 - Math.exp(-z * w * x) * (Math.cos(wd * x) + (z * w / wd) * Math.sin(wd * x));
+};
+function mulberry32(a) {
+  return () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+function rev(el, t, a, d = 0.5) { const p = eo(P(t, a, d)); el.style.transform = `translateY(${(1 - p) * 108}%)`; }
+function revOut(el, t, a, b, d = 0.4) { const pi = eo(P(t, a, d)), po = ei(P(t, b, 0.3)); el.style.transform = `translateY(${(1 - pi) * 108 - po * 108}%)`; }
+function type(el, full, t, a, cps = 40) {
+  const n = Math.floor(clamp((t - T(a)) * cps, 0, full.length));
+  if (el._n !== n) { el.textContent = full.slice(0, n); el._n = n; }
+}
+function fill(c, col) { c.fillStyle = col; c.fillRect(0, 0, W, H); }
+function bars(t, a, col) { // transition: six columns rise, finishing on the cut
+  for (let k = 0; k < 6; k++) { const x = P(t, a + k * 0.04, 0.2); if (x <= 0) continue; const h = H * eio(x); fx.fillStyle = col; fx.fillRect(k * 180, H - h, 181, h); }
+}
+function iris(t, a, cx, cy, col) { const x = P(t, a, 0.4); if (x > 0) { fx.fillStyle = col; fx.beginPath(); fx.arc(cx, cy, 1700 * ei(x), 0, 7); fx.fill(); } }
+const push = (el, t, a, k = 0.012) => (el.style.transform = `scale(${1 + k * Math.max(0, t - T(a))})`);
+
+const S = [0, 2, 4, 6, 12, 16, 21];
+const scenes = [...document.querySelectorAll(".scene")];
+
+// Name: per-character spans with fixed widths so the decode never reflows.
+const GLYPHS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#$%&@<>/{}";
+let NAME_FS = 170;
+function buildName(root, decode) {
+  root.style.fontSize = NAME_FS + "px";
+  if (!decode) return;
+  let idx = 0;
+  root.querySelectorAll(".l").forEach((l) => {
+    const s = l.textContent; l.textContent = "";
+    for (const ch of s) { const sp = document.createElement("span"); sp.className = "c"; sp.textContent = ch; sp.dataset.ch = ch; sp.dataset.i = idx++; l.appendChild(sp); }
+  });
+  root.querySelectorAll(".c").forEach((sp) => (sp.style.width = sp.getBoundingClientRect().width + "px"));
+}
+
+// ===== 1 HOOK =============================================================
+function hook(t) {
+  const sc = scenes[0];
+  fill(bg, INK);
+  push(sc, t, 0);
+  type($("#h-prompt"), "> whoami", t, -0.2, 18);
+  $("#h-cur").style.visibility = (t < T(0.7) || Math.floor(t * 4) % 2 === 0) ? "visible" : "hidden";
+  const f = Math.floor(t * 30);
+  sc.querySelectorAll(".c").forEach((sp) => {
+    const i = +sp.dataset.i, show = T(-1), lock = T(0.3 + i * 0.04);
+    if (t < show) { sp.textContent = " "; return; }
+    if (t >= lock) { sp.textContent = sp.dataset.ch; sp.style.color = ""; return; }
+    sp.textContent = GLYPHS[Math.floor(mulberry32(i * 7919 + f * 31)() * GLYPHS.length)];
+    sp.style.color = ACC;
+  });
+  // Scan line rides the decode front across both lines.
+  const front = clamp((t - T(0.3)) / (T(1.0) - T(0.3)));
+  if (front > 0 && front < 1) {
+    const line = front < 0.5 ? 0 : 1, fx_ = 90 + (front % 0.5) * 2 * 860;
+    bg.fillStyle = ACC; bg.fillRect(fx_, 560 + line * NAME_FS * 0.95, 8, NAME_FS * 0.9);
+  }
+  const u = eo(P(t, 1.05, 0.4));
+  bg.fillStyle = ACC; bg.fillRect(90, 550 + NAME_FS * 1.95, 320 * u, 12);
+  type($("#h-sub"), "CS student · Al Akhawayn University", t, 1.1, 60);
+  iris(t, 1.6, 240, 830, PAPER);
+}
+
+// ===== 2 PLACE ============================================================
+function place(t) {
+  const sc = scenes[1];
+  fill(bg, PAPER);
+  type($("#p-kick"), "Based in", t, 2.0, 30);
+  rev($("#p-l1"), t, 2.05, 0.45); rev($("#p-l2"), t, 2.2, 0.45);
+  const o = eo(P(t, 2.0, 0.45));
+  $("#band").style.clipPath = `inset(0 ${(1 - o) * 50}% 0 ${(1 - o) * 50}%)`;
+  $("#campus").style.transform = `translateX(${-280 * c3(P(t, 2.0, 2.0))}px) scale(${1.04 - 0.04 * P(t, 2.0, 2.0)})`;
+  $("#p-photo").style.transform = `scale(${spr(t - T(2.45), 2.6, 0.38)})`;
+  type($("#p-yr"), "Sophomore", t, 2.7, 30);
+  rev($("#p-cs"), t, 2.8, 0.45);
+  type($("#p-aui"), "@ Al Akhawayn University", t, 3.0, 50);
+  bars(t, 3.6, INK);
+}
+
+// ===== 3 ORIGIN ===========================================================
+function origin(t) {
+  const sc = scenes[2];
+  fill(bg, INK);
+  push(sc, t, 4);
+  // A physics sine squares off into a digital signal on the downbeat of bar 3.
+  const K = 1 + 16 * eio(P(t, 4.85, 0.35));
+  const reach = W * eo(P(t, 4.0, 0.5)), y0 = 790, A = 140;
+  bg.strokeStyle = "rgba(243,239,231,0.12)"; bg.lineWidth = 2; bg.fillRect(0, 0, 0, 0);
+  bg.beginPath(); bg.moveTo(0, y0); bg.lineTo(W, y0); bg.stroke();
+  bg.strokeStyle = ACC; bg.lineWidth = 9; bg.lineJoin = "round"; bg.lineCap = "round"; bg.beginPath();
+  for (let x = 0; x <= reach; x += 3) {
+    const th = x / 380 * 2 * Math.PI - (t - T(4)) * 5;
+    const y = y0 - A * Math.tanh(K * Math.sin(th)) / Math.tanh(K);
+    bg[x ? "lineTo" : "moveTo"](x, y);
+  }
+  bg.stroke();
+  rev($("#o-l1"), t, 4.1, 0.45); rev($("#o-l2"), t, 5.0, 0.4);
+  const sig = $("#o-sig");
+  if (t < T(5.0)) type(sig, "Analog · sin(ωt)", t, 4.3, 40); else type(sig, "Digital · 0 1 0 1", t, 5.0, 40);
+  type($("#o-b1"), "Baccalauréat scientifique · Physics", t, 4.35, 60);
+  type($("#o-b2"), "Mention très bien · 2025", t, 4.7, 50);
+  bars(t, 5.6, PAPER);
+}
+
+// ===== 4 PROOF ============================================================
+const CERTS = [
+  { img: "cert_google_cyber.png", title: "Foundations of Cybersecurity", meta: "Google · Coursera · Feb 16, 2026", t: 6.5, day: 47, rot: -4 },
+  { img: "cert_meta_vc.png", title: "Version Control", meta: "Meta · Coursera · Mar 19, 2026", t: 8.0, day: 78, rot: 3 },
+  { img: "cert_meta_html.png", title: "HTML and CSS in depth", meta: "Meta · Coursera · Mar 24, 2026", t: 9.5, day: 83, rot: -1.5 },
+];
+const CW = 800, CH = Math.round(800 * 890 / 1170), CX = 140, CY = 230;
+CERTS.forEach((c) => {
+  const d = document.createElement("div");
+  d.className = "card"; d.style.cssText = `left:${CX}px; top:${CY}px; width:${CW}px; height:${CH}px`;
+  d.innerHTML = `<img src="src/img/${c.img}">`; $("#cards").appendChild(d); c.el = d;
+  const cap = document.createElement("div");
+  cap.className = "abs"; cap.style.cssText = "left:90px; top:885px; width:900px";
+  cap.innerHTML = `<div class="disp m" style="font-size:58px"><span>${c.title}</span></div><div class="mono m" style="font-size:32px; margin-top:14px; color:#3a4456"><span>${c.meta}</span></div>`;
+  $("#caps").appendChild(cap); c.cap = cap;
+});
+$("#cnt-col").innerHTML = [3, 4, 5, 6, 7].join("<br>");
+// Timeline Feb 1 (day 32) → Jul 31 (day 212).
+const TLX = (day) => 90 + (day - 32) / 180 * 900, TLY = 1150;
+["Feb", "Mar", "Apr", "May", "Jun", "Jul"].forEach((m, i) => {
+  const d = document.createElement("div");
+  d.className = "abs mono"; d.style.cssText = `left:${TLX(32 + i * 30) - 2}px; top:${TLY + 24}px; font-size:28px; color:#3a4456`;
+  d.textContent = m; $("#tl").appendChild(d);
+});
+function proof(t) {
+  const sc = scenes[3];
+  fill(bg, PAPER);
+  type($("#c-kick"), "2026 · Certified", t, 6.0, 30);
+  const fold = eo(P(t, 10.35, 0.45)); // cards step aside for the count
+  CERTS.forEach((c, k) => {
+    const s = spr(t - T(c.t - 0.22), 2.0, 0.55);
+    let later = 0; for (let j = k + 1; j < 3; j++) later += eo(P(t, CERTS[j].t - 0.1, 0.35));
+    const y = (1 - s) * 950 - later * 26, rot = lerp(14, c.rot, s), rx = (1 - s) * 30;
+    const sc_ = (1 - 0.05 * later) * lerp(1, 0.56, fold);
+    c.el.style.transform = `translate(${-200 * fold}px, ${y - 70 * fold}px) perspective(1400px) rotateX(${rx}deg) rotate(${rot * (1 - fold * 0.5)}deg) scale(${sc_})`;
+    c.el.style.visibility = s > 0.001 ? "visible" : "hidden";
+    const end = k < 2 ? CERTS[k + 1].t - 0.15 : 10.3;
+    c.cap.querySelectorAll(".m > span").forEach((sp, j) => revOut(sp, t, c.t + j * 0.08, end));
+  });
+  // Count 3 → 7.
+  const roll = eo(P(t, 10.5, 0.55));
+  $("#cnt-col").style.transform = `translateY(${-roll * 4 * 380}px)`;
+  $("#cnt").style.clipPath = `inset(${(1 - eo(P(t, 10.4, 0.3))) * 100}% 0 0 0)`;
+  $("#cnt").style.transform = `scale(${1 + 0.12 * Math.sin(Math.PI * P(t, 11.0, 0.3))})`;
+  type($("#cnt-lab"), "Licenses &\ncertifications", t, 10.7, 40);
+  // Timeline: axis, lit segment and the date dot.
+  const ax = eo(P(t, 6.0, 0.5));
+  bg.fillStyle = "rgba(14,23,38,0.18)"; bg.fillRect(90, TLY - 1, 900 * ax, 3);
+  for (let i = 0; i < 6; i++) if (ax > i / 6) bg.fillRect(TLX(32 + i * 30) - 1, TLY - 9, 3, 18);
+  let day = 32, prev = 32;
+  CERTS.forEach((c) => { day += eo(P(t, c.t - 0.1, 0.35)) * (c.day - prev); prev = c.day; });
+  if (t > T(6.3)) {
+    bg.fillStyle = ACC; bg.fillRect(90, TLY - 3, TLX(day) - 90, 7);
+    CERTS.forEach((c) => { if (t >= T(c.t)) { bg.beginPath(); bg.arc(TLX(c.day), TLY, 9, 0, 7); bg.fill(); } });
+    bg.beginPath(); bg.arc(TLX(day), TLY, 15, 0, 7); bg.fill();
+  }
+  bars(t, 11.6, INK);
+}
+
+// ===== 5 RESEARCH =========================================================
+function research(t) {
+  const sc = scenes[4];
+  fill(bg, INK);
+  rev($("#r-l1"), t, 12.05, 0.45);
+  const s = spr(t - T(12.0), 1.8, 0.6);
+  $("#r-card").style.transform = `perspective(1600px) translateY(${(1 - s) * 260}px) rotateX(${(1 - s) * 38}deg) scale(${lerp(0.82, 1, s) + 0.012 * Math.max(0, t - T(12.6))})`;
+  type($("#r-m1"), "SURP'26 · Summer Undergraduate Research Program", t, 12.5, 70);
+  type($("#r-m2"), "Al Akhawayn University · Jun 2 – Jul 16, 2026", t, 13.0, 60);
+  const c = spr(t - T(14.0), 2.2, 0.5);
+  $("#r-chip").style.transform = `translateX(${(1 - c) * -1100}px)`;
+  iris(t, 15.6, 290, 330, PAPER);
+}
+
+// ===== 6 CTA ==============================================================
+function cta(t) {
+  const sc = scenes[5];
+  fill(bg, PAPER);
+  push(sc, t, 16, 0.005);
+  $("#e-photo").style.transform = `scale(${lerp(0.55, 1, spr(t - T(16.0), 2.2, 0.45))})`;
+  const n = Math.round(500 * c3(P(t, 16.75, 0.6)));
+  $("#e-n").textContent = n;
+  $("#e-plus").style.transform = `scale(${spr(t - T(17.5), 3, 0.35)})`;
+  $("#e-num").style.visibility = t >= T(16.7) ? "visible" : "hidden";
+  type($("#e-lab"), "Connections", t, 17.0, 40);
+  $("#e-name").querySelectorAll(".m > span").forEach((sp, j) => rev(sp, t, 16.25 + j * 0.15, 0.45));
+  type($("#e-sub"), "CS student · Al Akhawayn University · Ifrane", t, 16.9, 70);
+  // Button and cursor press.
+  const b = $("#e-btn"), bi = eo(P(t, 17.55, 0.4)), press = P(t, 18.5, 0.12), rel = P(t, 18.62, 0.2);
+  const dn = press * (1 - rel);
+  b.style.clipPath = `inset(0 ${(1 - bi) * 100}% 0 0 round 60px)`;
+  b.style.transform = `scale(${1 - 0.05 * dn})`;
+  b.style.background = t >= T(18.5) ? ACC : INK;
+  b.style.color = t >= T(18.5) ? INK : PAPER;
+  const cur = $("#e-cur"), m = eio(P(t, 17.7, 0.65));
+  const x = lerp(1000, 520, m), y = lerp(1400, 1120, m);
+  cur.style.transform = `translate(${x}px, ${y}px) scale(${1 - 0.18 * dn})`;
+  cur.style.visibility = t >= T(17.7) ? "visible" : "hidden";
+  // Final hit: accent rule sweeps under the name.
+  bg.fillStyle = ACC; bg.fillRect(90, 600 + NAME_FS * 1.95, 360 * eo(P(t, 19.0, 0.5)), 12);
+  // Click ripple.
+  const r = P(t, 18.5, 0.5);
+  if (r > 0 && r < 1) { fx.strokeStyle = ACC; fx.lineWidth = 6 * (1 - r); fx.beginPath(); fx.arc(x + 6, y + 6, 20 + 70 * eo(r), 0, 7); fx.stroke(); }
+}
+
+// Film grain: four seeded noise plates, chosen by frame number.
+const GRAIN = [0, 1, 2, 3].map((k) => {
+  const c = document.createElement("canvas"); c.width = 540; c.height = 675;
+  const g = c.getContext("2d"), id = g.createImageData(540, 675), r = mulberry32(1000 + k);
+  for (let i = 0; i < id.data.length; i += 4) { const v = r() * 255; id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 20; }
+  g.putImageData(id, 0, 0); return c;
+});
+
+const NOGRAIN = location.search.includes("nograin");
+const RUN = [hook, place, origin, proof, research, cta];
+let shown = -1;
+window.seek = (t) => {
+  let i = 0; while (i < RUN.length - 1 && t >= T(S[i + 1])) i++;
+  if (i !== shown) { scenes.forEach((s, k) => (s.style.display = k === i ? "block" : "none")); shown = i; }
+  fx.clearRect(0, 0, W, H);
+  RUN[i](t);
+  // With ?nograin the grain is added in post (ffmpeg noise, fixed seed) so PNG capture stays fast.
+  gr.clearRect(0, 0, W, H); if (!NOGRAIN) gr.drawImage(GRAIN[Math.floor(t * 30 + 1e-6) % 4], 0, 0, W, H);
+};
+window.ready = (async () => {
+  await Promise.all([document.fonts.load('700 60px "Plex"', "Mohammed"), document.fonts.load('500 40px "Plex Mono"', "Abc")]);
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((im) => im.decode()));
+  // Fit the name to the 900px measure once, then build the decode spans.
+  scenes.forEach((s) => (s.style.display = "block"));
+  const probe = $("#e-name"); probe.style.fontSize = "100px";
+  const w = Math.max(...[...probe.querySelectorAll(".m > span")].map((s) => s.getBoundingClientRect().width));
+  NAME_FS = Math.floor(100 * 900 / w);
+  buildName($("#h-name"), true); buildName($("#e-name"), false);
+  scenes.forEach((s) => (s.style.display = "none"));
+  window.seek(0);
+  return { status: [...document.fonts].map((f) => f.family + " " + f.status), check: document.fonts.check('700 60px "Plex"', "M"), nameFs: NAME_FS };
+})();
+</script>
+</body>
+</html>
