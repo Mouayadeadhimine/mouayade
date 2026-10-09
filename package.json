@@ -1,0 +1,23 @@
+{
+  "name": "c-motion-graphics",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mouayadeadhimine/mouayade.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mouayadeadhimine/mouayade/issues"
+  },
+  "homepage": "https://github.com/Mouayadeadhimine/mouayade#readme",
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "playwright": "^1.56.1"
+  },
+  "private": "true",
+  "type": "module"
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test Player</title>
+<style>
+  :root { --bg: #0b0f17; --panel: #151b27; --fg: #e8ecf4; --dim: #5b6478; --accent: #4fd1c5; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--fg); font: 14px system-ui, sans-serif; }
+  .wrap { width: min(360px, calc(100vw - 32px)); }
+  video { width: 100%; aspect-ratio: 9 / 16; background: #000; border-radius: 12px; display: block; }
+  .bar { display: flex; gap: 12px; align-items: center; margin-top: 12px; padding: 10px 12px; background: var(--panel); border-radius: 10px; }
+  button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--accent); color: var(--bg); font-size: 16px; cursor: pointer; }
+  .track { flex: 1; height: 8px; background: var(--dim); border-radius: 4px; position: relative; cursor: pointer; }
+  .fill { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--accent); border-radius: 4px; }
+  .time { font-variant-numeric: tabular-nums; color: var(--dim); min-width: 84px; text-align: right; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <video id="v" preload="auto" playsinline></video>
+  <div class="bar">
+    <button id="play" aria-label="Play">▶</button>
+    <div class="track" id="track"><div class="fill" id="fill"></div></div>
+    <span class="time" id="time">0.00 / 0.00</span>
+  </div>
+</div>
+<script>
+  const v = document.getElementById("v");
+  v.src = new URLSearchParams(location.search).get("src") || "out/test.mp4";
+  const btn = document.getElementById("play"), fill = document.getElementById("fill"), time = document.getElementById("time"), track = document.getElementById("track");
+  btn.onclick = () => (v.paused ? v.play() : v.pause());
+  v.onplay = () => (btn.textContent = "❚❚"); v.onpause = v.onended = () => (btn.textContent = "▶");
+  const tick = () => { const d = v.duration || 0; fill.style.width = d ? (v.currentTime / d) * 100 + "%" : 0; time.textContent = `${v.currentTime.toFixed(2)} / ${d.toFixed(2)}`; requestAnimationFrame(tick); };
+  tick();
+  track.onclick = e => { const r = track.getBoundingClientRect(); v.currentTime = ((e.clientX - r.left) / r.width) * v.duration; };
+</script>
+</body>
+</html>

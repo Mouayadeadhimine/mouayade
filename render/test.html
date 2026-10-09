@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Plex Arabic"; font-weight: 400; src: url("../fonts/IBMPlexSansArabic-Regular.ttf") format("truetype"); font-display: block; }
+  @font-face { font-family: "Plex Arabic"; font-weight: 700; src: url("../fonts/IBMPlexSansArabic-Bold.ttf") format("truetype"); font-display: block; }
+  :root { --bg: #0b0f17; --fg: #e8ecf4; --dim: #5b6478; --accent: #4fd1c5; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+  body { font-family: "Plex Arabic", sans-serif; color: var(--fg); position: relative; }
+  /* Safe area: 10% inset on every side (108px x 192px). */
+  #safe { position: absolute; left: 108px; top: 192px; right: 108px; bottom: 192px; }
+  #title { position: absolute; left: 0; right: 0; top: 560px; text-align: center; font-weight: 700; font-size: 168px; letter-spacing: -2px; will-change: transform; }
+  #caption { position: absolute; left: 0; right: 0; bottom: 260px; text-align: center; font-size: 56px; line-height: 1.5; font-weight: 700; white-space: nowrap; }
+  #caption .brand { white-space: nowrap; }
+  #caption .w { color: var(--dim); }
+  #caption .w.on { color: var(--accent); }
+</style>
+</head>
+<body>
+<div id="safe">
+  <div id="title" dir="ltr">Test 123</div>
+  <div id="caption" dir="rtl"><span class="w">هذا</span> <span class="w">اختبار</span> <span class="w">للترجمة</span> <span class="w">مع</span> <bdi class="brand" dir="ltr"><span class="w">Claude</span> <span class="w">Code</span></bdi></div>
+</div>
+<script src="gsap.min.js"></script>
+<script>
+  // Deterministic damped spring (stiffness 170, damping 12, mass 1), mapped as a GSAP ease.
+  function spring(p, k = 170, c = 12, m = 1, dur = 1.2) {
+    const t = p * dur, w0 = Math.sqrt(k / m), z = c / (2 * Math.sqrt(k * m)), wd = w0 * Math.sqrt(1 - z * z);
+    return 1 - Math.exp(-z * w0 * t) * (Math.cos(wd * t) + (z * w0 / wd) * Math.sin(wd * t));
+  }
+  const VOICE_START = 1.0;
+  // Word timings (s, relative to the voice clip). Fallback from ffmpeg silencedetect — Whisper model unavailable.
+  const WORDS = [[0.055, 0.524], [0.585, 0.946], [1.014, 1.31], [1.31, 1.606], [1.665, 1.90], [1.95, 2.245]];
+
+  const tl = gsap.timeline({ paused: true });
+  tl.fromTo("#title", { scale: 0.2, y: 120, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 1.2, ease: p => spring(p) }, 0.2);
+  tl.fromTo("#caption", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.6);
+  const spans = document.querySelectorAll("#caption .w");
+  WORDS.forEach(([s], i) => tl.call(() => {}, null, VOICE_START + s)); // keep timeline long enough
+  tl.set({}, {}, 5);
+
+  // seek(t): the only way time advances. Pure function of t → identical frames for identical t.
+  window.seek = (t) => {
+    tl.seek(t, false);
+    spans.forEach((el, i) => el.classList.toggle("on", t >= VOICE_START + WORDS[i][0]));
+  };
+  window.ready = (async () => {
+    await Promise.all([document.fonts.load('400 60px "Plex Arabic"', "هذا Code"), document.fonts.load('700 60px "Plex Arabic"', "هذا Code")]);
+    await document.fonts.ready;
+    window.seek(0);
+    return { status: [...document.fonts].map(f => f.weight + ":" + f.status), check: document.fonts.check('700 60px "Plex Arabic"', "هذا") };
+  })();
+</script>
+</body>
+</html>
