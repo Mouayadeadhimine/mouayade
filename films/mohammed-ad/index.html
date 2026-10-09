@@ -329,6 +329,7 @@ const GRAIN = [0, 1, 2, 3].map((k) => {
   g.putImageData(id, 0, 0); return c;
 });
 
+const NOGRAIN = location.search.includes("nograin");
 const RUN = [hook, place, origin, proof, research, cta];
 let shown = -1;
 window.seek = (t) => {
@@ -336,7 +337,8 @@ window.seek = (t) => {
   if (i !== shown) { scenes.forEach((s, k) => (s.style.display = k === i ? "block" : "none")); shown = i; }
   fx.clearRect(0, 0, W, H);
   RUN[i](t);
-  gr.clearRect(0, 0, W, H); gr.drawImage(GRAIN[Math.floor(t * 30 + 1e-6) % 4], 0, 0, W, H);
+  // With ?nograin the grain is added in post (ffmpeg noise, fixed seed) so PNG capture stays fast.
+  gr.clearRect(0, 0, W, H); if (!NOGRAIN) gr.drawImage(GRAIN[Math.floor(t * 30 + 1e-6) % 4], 0, 0, W, H);
 };
 window.ready = (async () => {
   await Promise.all([document.fonts.load('700 60px "Plex"', "Mohammed"), document.fonts.load('500 40px "Plex Mono"', "Abc")]);

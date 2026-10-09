@@ -19,6 +19,8 @@ ffmpeg -hide_banner -i $B/score.wav -af ebur128=peak=true -f null - 2>&1 | grep 
 VW=1080 VH=1350 node render/contact.mjs $F/index.html $F/beats.json $B/contact.png 8 216
 [ "${1:-full}" = sheet ] && exit 0
 
-node render/render.mjs $F/index.html $B/video.mp4 20 30 1080 1350 "" 0 8 0.5
+QUERY=nograin node render/render.mjs $F/index.html $B/video_clean.mp4 20 30 1080 1350 "" 0 8 0.5
+# Film grain in post: temporal noise with a fixed seed, so the render stays reproducible.
+ffmpeg -y -loglevel error -i $B/video_clean.mp4 -vf "noise=all_seed=1234:alls=9:allf=t" -c:v libx264 -preset medium -crf 16 -pix_fmt yuv420p $B/video.mp4
 ffmpeg -y -loglevel error -i $B/video.mp4 -i $B/score.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest -movflags +faststart $F/mohammed-boudrioua-ad.mp4
 ffprobe -v error -show_entries format=duration:stream=codec_name,pix_fmt,width,height,r_frame_rate -of compact $F/mohammed-boudrioua-ad.mp4

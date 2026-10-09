@@ -9,7 +9,7 @@ const SUB = Math.max(1, +blur);
 const frames = Math.round(+secs * +fps);
 const browser = await chromium.launch({ args: ["--font-render-hinting=none", "--disable-lcd-text", "--force-color-profile=srgb"] });
 const page = await browser.newPage({ viewport: { width: +W, height: +H }, deviceScaleFactor: 1 });
-await page.goto("file://" + path.resolve(page_));
+await page.goto("file://" + path.resolve(page_) + (process.env.QUERY ? "?" + process.env.QUERY : ""));
 const fontInfo = await page.evaluate(() => window.ready);
 console.log("fonts before frame 0:", JSON.stringify(fontInfo));
 if (!fontInfo.check) throw new Error("font not loaded before frame 0");
